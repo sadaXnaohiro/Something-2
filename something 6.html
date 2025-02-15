@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Would You Be Mine?</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            overflow: hidden;
+            margin: 0;
+        }
+        h1 {
+            color: #ff6f61;
+            font-size: 2.5em;
+            margin-top: 15%;
+        }
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #yes {
+            background-color: #28a745;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        #yes:hover {
+            background-color: #218838;
+            transform: scale(1.1);
+        }
+        #no {
+            background-color: #dc3545;
+            color: white;
+            position: absolute;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .trail-heart {
+            color: #ff6f61;
+            font-size: 1.5em;
+            position: absolute;
+            pointer-events: none;
+            animation: floatTrail 2s ease-out;
+        }
+        @keyframes floatTrail {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+        }
+        .emoji-popup {
+            font-size: 3em;
+            position: absolute;
+            animation: popup 2s ease-out forwards;
+            pointer-events: none;
+        }
+        @keyframes popup {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+        .sparkle {
+            color: #fff;
+            font-size: 2em;
+            position: absolute;
+            pointer-events: none;
+            animation: sparkleAnimation 2s infinite;
+            opacity: 0;
+        }
+        @keyframes sparkleAnimation {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Would you be mine?</h1>
+    <button id="yes" onclick="confirmYes()">Yes</button>
+    <button id="no" onmouseover="moveNoButton()">No</button>
+
+    <!-- Sound Effects -->
+    <audio id="noSound" src="https://www.soundjay.com/button/sounds/button-10.mp3" preload="auto"></audio>
+    <audio id="yesSound" src="https://www.soundjay.com/button/sounds/button-3.mp3" preload="auto"></audio>
+
+    <script>
+        // Infinite moving "No" button
+        function moveNoButton() {
+            const noButton = document.getElementById("no");
+            const maxX = window.innerWidth - noButton.offsetWidth;
+            const maxY = window.innerHeight - noButton.offsetHeight;
+
+            const newX = Math.floor(Math.random() * maxX);
+            const newY = Math.floor(Math.random() * maxY);
+
+            noButton.style.left = `${newX}px`;
+            noButton.style.top = `${newY}px`;
+
+            // Play sound when hovering over "No"
+            const noSound = document.getElementById("noSound");
+            noSound.currentTime = 0;
+            noSound.play();
+        }
+
+        // When "Yes" is clicked, show popup emojis and redirect
+        function confirmYes() {
+            // Play romantic sound
+            document.getElementById("yesSound").play();
+
+            // Popup emoji explosion
+            const emojis = ["💖", "🌷", "✨", "❤️", "💞", "💖", "💝"];
+            for (let i = 0; i < 20; i++) {
+                const emoji = document.createElement("div");
+                emoji.className = "emoji-popup";
+                emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 100 + "vw";
+                emoji.style.top = Math.random() * 100 + "vh";
+                document.body.appendChild(emoji);
+
+                // Remove emoji after animation ends
+                setTimeout(() => {
+                    emoji.remove();
+                }, 2000);
+            }
+
+            // Redirect after short delay for effect
+            setTimeout(() => {
+                window.location.href = 'https://www.mediafire.com/file/am5v8m9qq4r9bry/something.zip/file';
+            }, 2000);
+        }
+
+        // Heart trail effect on touch/mouse move
+        function createHeartTrail(event) {
+            const heart = document.createElement("div");
+            heart.className = "trail-heart";
+            heart.style.left = event.pageX + "px";
+            heart.style.top = event.pageY + "px";
+            heart.innerHTML = "❤️";
+            document.body.appendChild(heart);
+
+            // Remove heart after animation
+            setTimeout(() => {
+                heart.remove();
+            }, 2000);
+        }
+
+        // Add event listeners for touch and mouse move
+        window.addEventListener("mousemove", createHeartTrail);
+        window.addEventListener("touchmove", (e) => {
+            const touch = e.touches[0];
+            createHeartTrail(touch);
+        });
+
+        // Sparkling effect
+        setInterval(() => {
+            const sparkle = document.createElement("div");
+            sparkle.className = "sparkle";
+            sparkle.innerHTML = "✨";
+            sparkle.style.left = Math.random() * 100 + "vw";
+            sparkle.style.top = Math.random() * 100 + "vh";
+            document.body.appendChild(sparkle);
+
+            // Remove sparkle after animation
+            setTimeout(() => {
+                sparkle.remove();
+            }, 2000);
+        }, 600);
+    </script>
+</body>
+</html>
