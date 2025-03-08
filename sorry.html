@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infinite Sorry with Heart Trail</title>
+  <style>
+    body {
+      background-color: #ffecf0;
+      height: 100vh;
+      overflow: hidden;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .message {
+      position: absolute;
+      color: #ff4d6d;
+      font-size: 24px;
+      font-weight: bold;
+      animation: floatUp 3s linear infinite, fadeOut 3s linear infinite;
+      pointer-events: none;
+    }
+    .heart {
+      position: absolute;
+      color: red;
+      font-size: 20px;
+      pointer-events: none;
+      animation: floatUp 2s forwards;
+    }
+    @keyframes floatUp {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+    }
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  // Function to create Sorry message (infinite)
+  function createMessage() {
+    const message = document.createElement("div");
+    message.classList.add("message");
+    message.innerText = "Sorry Aradhya 😭🙏";
+    document.body.appendChild(message);
+
+    // Random position
+    message.style.left = Math.random() * window.innerWidth + "px";
+    message.style.top = Math.random() * window.innerHeight + "px";
+
+    // Remove after animation
+    setTimeout(() => {
+      message.remove();
+    }, 3000);
+  }
+
+  // Infinite loop for Sorry message
+  setInterval(createMessage, 10);
+
+  // Function to create hearts at touch/mouse position
+  function createHeart(x, y) {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerText = "❤️";
+    document.body.appendChild(heart);
+
+    // Set position to touch/mouse coordinates
+    heart.style.left = `${x}px`;
+    heart.style.top = `${y}px`;
+
+    // Remove after animation
+    setTimeout(() => {
+      heart.remove();
+    }, 2000);
+  }
+
+  // Create heart on touch/click
+  document.addEventListener('mousedown', (event) => {
+    createHeart(event.clientX, event.clientY);
+  });
+
+  // Create heart trail when dragging
+  document.addEventListener('mousemove', (event) => {
+    if (event.buttons === 1) { // If mouse is held down
+      createHeart(event.clientX, event.clientY);
+    }
+  });
+
+  // Create heart on touch (for mobile)
+  document.addEventListener('touchstart', (event) => {
+    const touch = event.touches[0];
+    createHeart(touch.clientX, touch.clientY);
+  });
+
+  // Create heart trail on drag (for mobile)
+  document.addEventListener('touchmove', (event) => {
+    const touch = event.touches[0];
+    createHeart(touch.clientX, touch.clientY);
+  });
+</script>
+
+</body>
+</html>
